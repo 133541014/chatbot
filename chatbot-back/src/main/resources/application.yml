@@ -61,9 +61,10 @@ pagehelper:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8082/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${eureka.server.port}/eureka/
   instance:
     ip-address: true
+    status-page-url: http://localhost:${server.port}/swagger-ui.html
 
 
 

@@ -37,7 +37,7 @@
     methods:{
       logout(){
         var _this = this;
-        this.axios.post('/server/user/logout')
+        this.axios.post('http://localhost:8060/chatbot-back/user/logout')
           .then(function (response) {
             // alert("注销成功");
             _this.$message({

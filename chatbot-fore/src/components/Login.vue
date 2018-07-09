@@ -121,7 +121,7 @@
           _this.form.loginAddress = ip;
           _this.$refs['loginForm'].validate((valid) => {
             if (valid) {
-              _this.axios.post('/server/user/login', _this.form)
+              _this.axios.post('http://localhost:8060/chatbot-back/user/login', _this.form)
                 .then(function (response) {
                   if(response.data.status !== 200){
                     // _this.showError = true;

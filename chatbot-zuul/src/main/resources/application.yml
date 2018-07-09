@@ -1,2 +1,15 @@
 server:
-  port: 8083
+  port: 8060
+spring:
+  application:
+    name: chatbot-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.server.port}/eureka/
+zuul:
+  routes:
+    chatbot-back: /chatbot-back/**
+ribbon:
+  ReadTimeout: 10000
+  SocketTimeout: 10000

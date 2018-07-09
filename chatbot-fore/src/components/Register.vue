@@ -76,7 +76,7 @@
         var _this = this;
         this.$refs['registerForm'].validate((valid) => {
           if (valid) {
-            this.axios.post('/server/user/register', this.form)
+            this.axios.post('http://localhost:8060/chatbot-back/user/register', this.form)
               .then(function (response) {
                 if(response.data.status !== 200){
                   // _this.showError = true;
