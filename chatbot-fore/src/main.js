@@ -28,6 +28,11 @@ new Vue({
       localStorage.setItem('isLogin','');
     }
 
+
+    if(localStorage.getItem('token')===null){
+      localStorage.setItem('token','');
+    }
+
     // this.$store.state.isLogin = localStorage.getItem('isLogin');
     // this.$store.state.user = JSON.parse(localStorage.getItem('user'));
   }

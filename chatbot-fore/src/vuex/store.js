@@ -8,7 +8,8 @@ const store = new Vuex.Store({
 
    state:{
      user:null,
-     isLogin:''
+     isLogin:'',
+     token:''
    },
   mutations:{
      setUser(state,msg){
@@ -18,6 +19,10 @@ const store = new Vuex.Store({
     setLogin(state,msg){
        state.isLogin = msg;
        localStorage.setItem("isLogin",msg);
+    },
+    setToken(state,msg){
+      state.token = msg;
+      localStorage.setItem("token",msg);
     }
   },
   getters:{
@@ -32,6 +37,12 @@ const store = new Vuex.Store({
         state.isLogin = localStorage.getItem('isLogin');
       }
       return state.isLogin;
+    },
+    getToken(state){
+      if(!state.token){
+        state.token = localStorage.getItem('token');
+      }
+      return state.token;
     }
   }
 
