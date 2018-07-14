@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/uaa/css/bootstrap.css">
 </head>
 <body>
 <div class="container">
@@ -17,6 +17,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-<script src="/js/bootstrap.js"></script>
+<script src="/uaa/js/jquery-3.3.1.min.js"></script>
+<script src="/uaa/js/bootstrap.js"></script>
 </body>
 </html>

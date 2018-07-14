@@ -1,7 +1,8 @@
 <html>
 <head>
-    <script src="/js/bootstrap.js"></script>
-    <link href="/css/bootstrap.css" rel="stylesheet">
+    <script src="/uaa/js/jquery-3.3.1.min.js"></script>
+    <script src="/uaa/js/bootstrap.js"></script>
+    <link href="/uaa/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
