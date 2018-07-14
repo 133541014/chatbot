@@ -1,0 +1,6 @@
+/chatbot-auth-server/.idea
+/chatbot-auth-server/target
+/chatbot-auth-server/*.iml
+/chatbot-zuul/*.iml
+/chatbot-zuul/chatbot-zuul.iml
+/chatbot-back/chatbot-back.iml
