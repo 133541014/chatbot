@@ -1,5 +1,6 @@
 package com.chao.chatbot.auth.server.config;
 
+import com.chao.chatbot.auth.server.common.AuthenticationMessage;
 import com.chao.chatbot.auth.server.config.service.SecurityClientDetailsServiceImpl;
 import com.chao.chatbot.auth.server.config.service.SecurityUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,18 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private SecurityUserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private RedisConnectionFactory connectionFactory;
+
+    @Bean
+    public TokenStore tokenStore() {
+        RedisTokenStore redis = new RedisTokenStore(connectionFactory);
+        return redis;
+    }
 
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
@@ -54,17 +65,19 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory() // 使用in-memory存储
-                .withClient("client") // client_id
-                .secret("secret") // client_secret
-                .authorizedGrantTypes("authorization_code") // 该client允许的授权类型
-                .scopes("app"); // 允许的授权范围
+                .withClient(AuthenticationMessage.CLIENT_ID) // client_id
+                .secret(AuthenticationMessage.SECRET) // client_secret
+                .authorizedGrantTypes(AuthenticationMessage.AUTHORIZED_GRANT_TYPES) // 该client允许的授权类型
+                .scopes(AuthenticationMessage.SCOPE); // 允许的授权范围
     }
 
     @Override
     public void configure(final AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                .accessTokenConverter(accessTokenConverter());
+                .accessTokenConverter(accessTokenConverter())
+                .tokenStore(tokenStore());
     }
 
     @Bean
@@ -74,14 +87,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 String userName = authentication.getUserAuthentication().getName();
                 final Map<String, Object> additionalInformation = new HashMap<>();
-                additionalInformation.put("user_name", userName);
+                additionalInformation.put(AuthenticationMessage.JWT_USER_NAME, userName);
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
                 OAuth2AccessToken token = super.enhance(accessToken, authentication);
                 return token;
             }
         };
-        KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("chatbot_key.jks"), "19941014".toCharArray())
-                .getKeyPair("chatbot_key");
+        KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource(AuthenticationMessage.CREDENTIALS_NAME), AuthenticationMessage.CREDENTIALS_PASSWORD.toCharArray())
+                .getKeyPair(AuthenticationMessage.CREDENTIALS_KEY);
         converter.setKeyPair(keyPair);
         return converter;
     }
